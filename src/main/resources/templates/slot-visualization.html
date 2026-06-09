@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slot Visualization</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+
+    <div class="sidebar">
+
+        <div class="logo-section">
+
+            <img src="images/KS.png" alt="Logo">
+
+            <h2>KS_PARKING</h2>
+
+        </div>
+
+        <ul>
+
+            <li onclick="window.location.href='/dashboard'">
+                <i class="fa-solid fa-chart-line"></i>
+                Dashboard
+            </li>
+
+            <li onclick="window.location.href='/vehicle-entry'">
+                <i class="fa-solid fa-car"></i>
+                Vehicle Entry
+            </li>
+
+            <li onclick="window.location.href='/vehicle-exit'">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Vehicle Exit
+            </li>
+
+            <li onclick="window.location.href='/waiting-queue'">
+                <i class="fa-solid fa-clock"></i>
+                Waiting Queue
+            </li>
+
+            <li class="active" onclick="window.location.href='/slot-visualization'">
+                <i class="fa-solid fa-square-parking"></i>
+                Slot Visualization
+            </li>
+
+            <li onclick="window.location.href='/payments'">
+                <i class="fa-solid fa-money-bill"></i>
+                Payments
+            </li>
+
+        </ul>
+
+    </div>
+
+    <!-- MAIN CONTENT -->
+
+    <div class="main-content">
+
+        <!-- TOPBAR -->
+
+        <div class="topbar">
+
+            <h1>Slot Visualization</h1>
+
+<div class="admin-dropdown"
+     style="position:fixed;
+            top:20px;
+            right:20px;
+            z-index:99999;">
+
+    <div class="admin"
+         onclick="toggleMenu()"
+         th:text="${session.username.substring(0,1).toUpperCase()}">
+    </div>
+
+    <div class="dropdown-menu" id="menu">
+
+        <a href="/logout">Logout</a>
+
+    </div>
+
+</div>
+
+<script>
+
+function toggleMenu(){
+
+    document
+    .getElementById("menu")
+    .classList
+    .toggle("show");
+}
+</script>
+
+        </div>
+
+        <!-- LEGEND -->
+
+        <div class="legend">
+
+            <div class="legend-item">
+
+                <div class="legend-box free-slot"></div>
+
+                <span>Available</span>
+
+            </div>
+
+            <div class="legend-item">
+
+                <div class="legend-box occupied-slot"></div>
+
+                <span>Occupied</span>
+
+            </div>
+
+        </div>
+
+        <!-- CAR PARKING -->
+
+        <div class="parking-section">
+
+            <h2>Car Parking</h2>
+
+            <div class="slots">
+
+<div th:each="slot : ${slots}"
+     th:if="${slot.slotType == 'CAR'}"
+     th:class="${slot.slotStatus == 'FREE'} ?
+     'slot available' :
+     'slot occupied'">
+
+    <span th:text="${slot.slotId}">
+    </span>
+
+</div>
+
+</div>
+
+        </div>
+
+        <!-- BIKE PARKING -->
+
+        <div class="parking-section">
+
+            <h2>Bike Parking</h2>
+
+            <div class="slots">
+
+<div th:each="slot : ${slots}"
+     th:if="${slot.slotType == 'BIKE'}"
+     th:class="${slot.slotStatus == 'FREE'} ?
+     'slot available' :
+     'slot occupied'">
+
+    <span th:text="${slot.slotId}">
+    </span>
+
+</div>
+
+</div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

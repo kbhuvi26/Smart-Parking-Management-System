@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KS_PARKING Dashboard</title>
+
+ <link rel="stylesheet" href="/css/style.css">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="sidebar">
+
+        <div class="logo-section">
+
+           <img src="/images/KS.png" alt="Logo">
+
+            <h2>KS_PARKING</h2>
+
+        </div>
+
+        <ul>
+
+                    <li class="active"onclick="window.location.href='/dashboard'">
+            <i class="fa-solid fa-chart-line"></i>
+            Dashboard
+        </li>
+
+        <li  onclick="window.location.href='/vehicle-entry'">
+            <i class="fa-solid fa-car"></i>
+            Vehicle Entry
+        </li>
+
+        <li onclick="window.location.href='/vehicle-exit'">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            Vehicle Exit
+        </li>
+
+        <li onclick="window.location.href='/waiting-queue'">
+            <i class="fa-solid fa-clock"></i>
+            Waiting Queue
+        </li>
+
+        <li onclick="window.location.href='/slot-visualization'">
+            <i class="fa-solid fa-square-parking"></i>
+            Slot Visualization
+        </li>
+
+        <li onclick="window.location.href='/payments'">
+            <i class="fa-solid fa-money-bill"></i>
+            Payments
+        </li>
+
+        </ul>
+
+    </div>
+
+    <div class="main-content">
+<div class="topbar">
+
+    <h1>Dashboard</h1>
+
+    <div class="admin-dropdown"
+         style="position:fixed;
+            top:20px;
+            right:20px;
+            z-index:99999;">
+
+        <div class="admin"
+             onclick="toggleMenu()"
+             th:text="${session.username.substring(0,1).toUpperCase()}">
+        </div>
+
+        <div class="dropdown-menu" id="menu">
+            <a href="/logout">Logout</a>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+function toggleMenu(){
+
+    document
+    .getElementById("menu")
+    .classList
+    .toggle("show");
+}
+</script>
+
+<div class="cards">
+
+
+       
+
+            <div class="card">
+
+                <div class="icon parking">
+                    <i class="fa-solid fa-warehouse"></i>
+                </div>
+
+                <h2>Total Slots</h2>
+                <p th:text="${totalSlots}"></p>
+
+            </div>
+
+            <div class="card">
+
+                <div class="icon available">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+
+                <h2>Available</h2>
+               <p th:text="${availableSlots}"></p>
+
+            </div>
+
+            <div class="card">
+
+                <div class="icon occupied">
+                    <i class="fa-solid fa-ban"></i>
+                </div>
+
+                <h2>Occupied</h2>
+                <p th:text="${occupiedSlots}"></p>
+
+            </div>
+
+            <div class="card">
+
+                <div class="icon revenue">
+                    <i class="fa-solid fa-wallet"></i>
+                </div>
+
+                <h2>Revenue</h2>
+                <p>₹<span th:text="${totalRevenue}"></span></p>
+
+            </div>
+
+            <div class="card">
+
+                <div class="icon queue">
+                    <i class="fa-solid fa-car-side"></i>
+                </div>
+
+                <h2>Queue</h2>
+             <p th:text="${queueCount}"></p>
+
+            </div>
+
+        </div>
+ <div class="quick-actions">
+
+    <button onclick="window.location.href='/vehicle-entry'">
+
+        <i class="fa-solid fa-car"></i>
+
+        Add Vehicle
+
+    </button>
+
+    <button onclick="window.location.href='/vehicle-exit'">
+
+        <i class="fa-solid fa-right-from-bracket"></i>
+
+        Exit Vehicle
+
+    </button>
+
+    <button onclick="window.location.href='/waiting-queue'">
+
+        <i class="fa-solid fa-clock"></i>
+
+        View Queue
+
+    </button>
+
+    <button onclick="window.location.href='/payments'">
+
+        <i class="fa-solid fa-money-bill"></i>
+
+        Payments
+
+    </button>
+
+</div>
+<div class="activity-section">
+
+    <h2>Recent Activity</h2>
+
+    <table class="activity-table">
+
+        <thead>
+
+            <tr>
+
+                <th>Vehicle</th>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Time</th>
+
+            </tr>
+
+        </thead>
+
+       <tbody>
+
+<tr th:each="vehicle : ${activities}">
+
+    <td th:text="${vehicle.vehicleNumber}">
+    </td>
+
+    <td th:text="${vehicle.vehicleType}">
+    </td>
+
+    <td>
+
+        <span class="activity-status entry"
+              th:if="${vehicle.exitTime == null}">
+            ENTRY
+        </span>
+
+        <span class="activity-status exit"
+              th:if="${vehicle.exitTime != null}">
+            EXIT
+        </span>
+
+    </td>
+
+    <td th:text="${#temporals.format(vehicle.entryTime,
+    'dd-MM-yyyy hh:mm a')}">
+    </td>
+
+</tr>
+
+</tbody>
+
+    </table>
+
+</div>
+
+    </div>
+
+</body>
+</html>

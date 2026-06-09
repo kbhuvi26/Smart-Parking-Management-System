@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Vehicle Exit</title>
+</head>
+
+<body>
+
+<h1>Vehicle Exit Successful</h1>
+
+<h2>
+    Vehicle Number :
+    <span th:text="${vehicle.vehicleNumber}"></span>
+</h2>
+
+<h2>
+    Freed Slot :
+    <span th:text="${vehicle.slotId}"></span>
+</h2>
+
+<h2>
+    Parking Fee :
+    ₹<span th:text="${vehicle.fee}"></span>
+</h2>
+
+</body>
+</html>

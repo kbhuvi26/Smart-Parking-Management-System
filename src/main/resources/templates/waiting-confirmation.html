@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Waiting Queue</title>
+</head>
+<body>
+
+<h1>No Slots Available</h1>
+
+<h2>Do you want to join the waiting queue?</h2>
+
+<form action="/join-queue" method="post">
+
+    <input type="hidden"
+           name="vehicle_number"
+           th:value="${vehicleNumber}">
+
+    <input type="hidden"
+           name="vehicle_type"
+           th:value="${vehicleType}">
+
+    <button type="submit">
+        YES
+    </button>
+
+</form>
+
+<br>
+
+<a href="/vehicle-entry.html">
+    NO
+</a>
+
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Exit</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+
+    <div class="sidebar">
+
+        <div class="logo-section">
+
+            <img src="/images/KS.png" alt="Logo">
+
+            <h2>KS_PARKING</h2>
+
+        </div>
+
+        <ul>
+
+            <li onclick="window.location.href='/dashboard'">
+                <i class="fa-solid fa-chart-line"></i>
+                Dashboard
+            </li>
+
+            <li onclick="window.location.href='/vehicle-entry'">
+                <i class="fa-solid fa-car"></i>
+                Vehicle Entry
+            </li>
+
+            <li class="active" onclick="window.location.href='/vehicle-exit'">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Vehicle Exit
+            </li>
+
+            <li onclick="window.location.href='/waiting-queue'">
+                <i class="fa-solid fa-clock"></i>
+                Waiting Queue
+            </li>
+
+            <li onclick="window.location.href='/slot-visualization'">
+                <i class="fa-solid fa-square-parking"></i>
+                Slot Visualization
+            </li>
+
+            <li onclick="window.location.href='/payments'">
+                <i class="fa-solid fa-money-bill"></i>
+                Payments
+            </li>
+        </ul>
+
+    </div>
+
+    <!-- MAIN CONTENT -->
+
+    <div class="main-content">
+
+        <!-- TOPBAR -->
+
+        <div class="topbar">
+
+            <h1>Vehicle Exit</h1>
+<div class="admin-dropdown"
+     style="position:fixed;
+            top:20px;
+            right:20px;
+            z-index:99999;">
+
+    <div class="admin"
+         onclick="toggleMenu()"
+         th:text="${session.username.substring(0,1).toUpperCase()}">
+    </div>
+
+    <div class="dropdown-menu" id="menu">
+
+        <a href="/logout">Logout</a>
+
+    </div>
+
+</div>
+
+<script>
+
+function toggleMenu(){
+
+    document
+    .getElementById("menu")
+    .classList
+    .toggle("show");
+}
+</script>
+
+        </div>
+
+        <!-- EXIT FORM -->
+
+        <div class="entry-container">
+
+           <form class="entry-form"
+      action="/vehicle-exit"
+      method="post">
+
+                <label>Vehicle Number</label>
+
+                <input type="text"
+                    name="vehicle_number"
+                    placeholder="Enter Vehicle Number"
+                    required>
+                    
+                <label>Email</label>
+
+                <input type="email"
+                    name="email"
+                    placeholder="Enter Email"
+                    required>
+                                
+                    <label>Payment Method</label>
+
+<select name="paymentMethod">
+
+    <option value="CASH">Cash</option>
+
+    <option value="UPI">UPI</option>
+
+</select>
+
+                <button type="submit">
+                    Exit Vehicle
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
