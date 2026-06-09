@@ -168,7 +168,7 @@ Restart VS Code after setting the variables.
 
 ## Author
 
-**Vishy**
+**KS Bhuvana**
 
 Smart Parking Management System Project
 
