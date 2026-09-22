@@ -4,6 +4,7 @@ package com.smartparking.SmartParkingSystem.service;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Properties;
@@ -14,7 +15,6 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 import jakarta.mail.Authenticator;
 import jakarta.mail.Message;
-import jakarta.mail.Multipart;
 import jakarta.mail.PasswordAuthentication;
 import jakarta.mail.Session;
 import jakarta.mail.Transport;
@@ -22,6 +22,7 @@ import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.MimeMultipart;
+import jakarta.mail.util.ByteArrayDataSource;
 
 public class EmailService {
     private static String generatePdfReceipt(
@@ -149,7 +150,8 @@ public class EmailService {
 
                     +
 
-                    "<img src='https://i.postimg.cc/R0YnM14J/KS.png' width='100' height='100'>"
+                    //"<img src='https://i.postimg.cc/R0YnM14J/KS.png' width='100' height='100'>"
+                    "<img src='cid:parkingLogo' width='100' height='100'>"
 
                     +
 
@@ -275,6 +277,27 @@ htmlPart.setContent(
         htmlContent,
         "text/html"
 );
+MimeBodyPart logoPart = new MimeBodyPart();
+
+InputStream logoStream = EmailService.class
+        .getClassLoader()
+        .getResourceAsStream("static/images/KS.png");
+
+if (logoStream == null) {
+    throw new Exception("KS.png not found");
+}
+
+logoPart.setDataHandler(
+        new jakarta.activation.DataHandler(
+                new ByteArrayDataSource(
+                        logoStream,
+                        "image/png"
+                )
+        )
+);
+
+logoPart.setHeader("Content-ID", "<parkingLogo>");
+logoPart.setDisposition(MimeBodyPart.INLINE);
 
 MimeBodyPart attachmentPart =
         new MimeBodyPart();
@@ -283,11 +306,21 @@ attachmentPart.attachFile(
         new File(pdfFile)
 );
 
-Multipart multipart =
+MimeMultipart htmlMultipart =
+        new MimeMultipart("related");
+
+htmlMultipart.addBodyPart(htmlPart);
+htmlMultipart.addBodyPart(logoPart);
+
+MimeBodyPart htmlContainer =
+        new MimeBodyPart();
+
+htmlContainer.setContent(htmlMultipart);
+
+MimeMultipart multipart =
         new MimeMultipart();
 
-multipart.addBodyPart(htmlPart);
-
+multipart.addBodyPart(htmlContainer);
 multipart.addBodyPart(attachmentPart);
 
 message.setContent(multipart);
